@@ -1,44 +1,26 @@
-//import './App.css'
-import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Task from './pages/Task';
-import Navbar from './componentes/Navbar';
-import ProtectedRoute from './routes/ProtectedRoute';
+import type { JSX } from "react/jsx-runtime"
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import DashboardPage from "./pages/DashboardPage";
+import SignUp from "./pages/SignUp";
+import RequireAuth from "./componentes/RequireAuth";
 
 
-function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  return (
-    <>
-      <Navbar>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Login
-                isAuthenticated={isAuthenticated}
-                setIsAuthenticated={setIsAuthenticated}
-              />
-            }
-          />
+function App(): JSX.Element {
 
-          <Route
-            path="/register"
-            element={<Register />} />
+  return <div style={{ padding: "2rem" }}>
+    <h1>Auth Demo</h1>
+    <Routes>
+      <Route path="/" element={<SignUp />} />
+      <Route path='/login' element={<LoginPage />} />
+      <Route path='/dashboard' element={
+        <RequireAuth>
+          <DashboardPage />
+        </RequireAuth>
+      } />
+    </Routes>
+  </div>
 
-          <Route
-            path="/task"
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <Task />
-              </ProtectedRoute>
-            } />
-        </Routes>
-      </Navbar>
-    </>
-  )
 }
 
 export default App
