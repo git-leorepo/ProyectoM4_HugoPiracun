@@ -25,10 +25,10 @@ function Login({ isAuthenticated, setIsAuthenticated }: LoginProps): JSX.Element
       <h1>Login</h1>
       <p>Estado actual: {isAuthenticated ? "Autenticado" : "No Autenticado"}</p>
 
-      <ButtonLogin 
-        text={isAuthenticated ? "Cerrar Sesión" : "Iniciar Sesión"} 
-        isAuthenticated={isAuthenticated} 
-        onClick={handleAuth} 
+      <ButtonLogin
+        text={isAuthenticated ? "Cerrar Sesión" : "Iniciar Sesión"}
+        isAuthenticated={isAuthenticated}
+        onClick={handleAuth}
       />
     </div>
   );

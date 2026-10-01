@@ -14,16 +14,20 @@ function App() {
     <>
       <Navbar>
         <Routes>
-          <Route 
-            path="/" 
+          <Route
+            path="/"
             element={
-              <Login 
-                isAuthenticated={isAuthenticated} 
-                setIsAuthenticated={setIsAuthenticated} 
+              <Login
+                isAuthenticated={isAuthenticated}
+                setIsAuthenticated={setIsAuthenticated}
               />
-            } 
+            }
           />
-          <Route path="/register" element={<Register />} />
+
+          <Route
+            path="/register"
+            element={<Register />} />
+
           <Route
             path="/task"
             element={
@@ -32,7 +36,7 @@ function App() {
               </ProtectedRoute>
             } />
         </Routes>
-      </Navbar>      
+      </Navbar>
     </>
   )
 }
