@@ -1,0 +1,81 @@
+/* Contenedor principal: centra la card en toda la pantalla con fondo degradado tierra */
+.dashboard-container {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #8B7355 0%, #A0826D 100%);
+  font-family: var(--sans);
+  box-sizing: border-box;
+}
+
+/* Card centrada con sombra y bordes redondeados, tono crema cálido */
+.dashboard-card {
+  width: 100%;
+  max-width: 420px;
+  background: #FDF8F3;
+  border-radius: 16px;
+  padding: 40px 32px;
+  box-shadow: 0 20px 60px rgba(62, 47, 35, 0.25);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Título principal del dashboard, marrón oscuro */
+.dashboard-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #3E2F23;
+  margin: 0 0 16px;
+  letter-spacing: -0.5px;
+}
+
+/* Email del usuario autenticado, tono marrón medio */
+.dashboard-email {
+  font-size: 15px;
+  color: #8B7355;
+  margin: 0 0 8px;
+}
+
+/* Mensaje de bienvenida, tono marrón claro */
+.dashboard-welcome {
+  font-size: 15px;
+  color: #A0826D;
+  margin: 0 0 24px;
+}
+
+/* Botón de cierre de sesión con degradado terracota */
+.dashboard-logout {
+  padding: 12px 32px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFDF9;
+  background: linear-gradient(135deg, #B8735A 0%, #9B5E47 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: var(--sans);
+}
+
+/* Hover del botón de logout: se eleva levemente */
+.dashboard-logout:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(184, 115, 90, 0.4);
+}
+
+/* Ajustes para pantallas pequeñas (móviles) */
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 16px;
+  }
+
+  .dashboard-card {
+    padding: 32px 24px;
+  }
+
+  .dashboard-title {
+    font-size: 24px;
+  }
+}

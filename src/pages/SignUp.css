@@ -1,0 +1,206 @@
+/* Contenedor principal: centra la card en toda la pantalla con fondo degradado tierra */
+.signup-container {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #8B7355 0%, #A0826D 100%);
+  font-family: var(--sans);
+  box-sizing: border-box;
+}
+
+/* Card centrada con sombra y bordes redondeados, tono crema cálido */
+.signup-card {
+  width: 100%;
+  max-width: 420px;
+  background: #FDF8F3;
+  border-radius: 16px;
+  padding: 40px 32px;
+  box-shadow: 0 20px 60px rgba(62, 47, 35, 0.25);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Título principal de la card, marrón oscuro */
+.signup-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #3E2F23;
+  margin: 0 0 8px;
+  letter-spacing: -0.5px;
+}
+
+/* Subtítulo debajo del título, tono marrón medio */
+.signup-subtitle {
+  font-size: 15px;
+  color: #8B7355;
+  margin: 0 0 24px;
+}
+
+/* Mensaje de éxito con fondo verde suave */
+.signup-success {
+  background: #E8F5E9;
+  border: 1px solid #A5D6A7;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #2E7D32;
+  margin: 0 0 16px;
+  text-align: left;
+}
+
+/* Mensaje de error con fondo terracota suave */
+.signup-error {
+  background: #F5E6E0;
+  border: 1px solid #D4A59A;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #9B4A3C;
+  margin: 0 0 16px;
+  text-align: left;
+}
+
+
+/* Contenedor del formulario: inputs y botón en columna */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Campos de texto (email y password), bordes beige */
+.signup-input {
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 2px solid #D4C4B0;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: var(--sans);
+  box-sizing: border-box;
+  width: 100%;
+  background: #FFFDF9;
+  color: #3E2F23;
+}
+
+/* Estado focus de los inputs: borde terracota con glow suave */
+.signup-input:focus {
+  border-color: #B8735A;
+  box-shadow: 0 0 0 3px rgba(184, 115, 90, 0.15);
+}
+
+/* Botón principal de registro con degradado terracota */
+.signup-button {
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFDF9;
+  background: linear-gradient(135deg, #B8735A 0%, #9B5E47 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: var(--sans);
+  margin-top: 8px;
+}
+
+/* Hover del botón principal: se eleva levemente */
+.signup-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(184, 115, 90, 0.4);
+}
+
+/* Separador "o continúa con" */
+.signup-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0 16px;
+}
+
+/* Líneas laterales del separador, tono beige */
+.signup-divider::before,
+.signup-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #D4C4B0;
+}
+
+/* Texto del separador */
+.signup-divider-text {
+  font-size: 13px;
+  color: #A0826D;
+  white-space: nowrap;
+}
+
+/* Botón de Google con borde y fondo blanco cálido */
+.signup-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #3E2F23;
+  background: #FFFDF9;
+  border: 2px solid #D4C4B0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  font-family: var(--sans);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Hover del botón de Google */
+.signup-google:hover {
+  background: #F5EDE4;
+  border-color: #B8A89A;
+}
+
+/* Ícono de Google dentro del botón */
+.signup-google-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Texto del pie de página */
+.signup-footer {
+  margin: 24px 0 0;
+  font-size: 14px;
+  color: #8B7355;
+}
+
+/* Enlace de login en el pie de página, terracota */
+.signup-link {
+  color: #B8735A;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+/* Hover del enlace de login */
+.signup-link:hover {
+  color: #9B5E47;
+  text-decoration: underline;
+}
+
+/* Ajustes para pantallas pequeñas (móviles) */
+@media (max-width: 480px) {
+  .signup-container {
+    padding: 16px;
+  }
+
+  .signup-card {
+    padding: 32px 24px;
+  }
+
+  .signup-title {
+    font-size: 24px;
+  }
+}

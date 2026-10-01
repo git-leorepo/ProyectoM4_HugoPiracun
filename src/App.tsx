@@ -8,8 +8,7 @@ import RequireAuth from "./componentes/RequireAuth";
 
 function App(): JSX.Element {
 
-  return <div style={{ padding: "2rem" }}>
-    <h1>Auth Demo</h1>
+  return <div>
     <Routes>
       <Route path="/" element={<SignUp />} />
       <Route path='/login' element={<LoginPage />} />
@@ -19,7 +18,7 @@ function App(): JSX.Element {
         </RequireAuth>
       } />
     </Routes>
-  </div>
+  </div >
 
 }
 
