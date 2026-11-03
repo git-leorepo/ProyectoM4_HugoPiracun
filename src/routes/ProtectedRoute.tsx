@@ -1,3 +1,4 @@
+/*
 import { Navigate } from "react-router-dom";
 import type { ReactNode } from "react";
 import type { JSX } from "react/jsx-runtime";
@@ -14,4 +15,4 @@ function ProtectedRoute({ isAuthenticated, children }: ProtectedRouteProps): JSX
     return <>{children}</>;
 }
 
-export default ProtectedRoute;
+export default ProtectedRoute;*/

@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../features/auth/Authenticator";
 import { type ReactNode, type JSX } from "react";
+import { useAuth } from "../features/auth/Authenticator";
+
 
 function RequireAuth({ children }: { children: ReactNode }): JSX.Element {
     const { user, loading } = useAuth();

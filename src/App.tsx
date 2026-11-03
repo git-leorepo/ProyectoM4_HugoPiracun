@@ -10,8 +10,11 @@ function App(): JSX.Element {
 
   return <div>
     <Routes>
+      {/* pagina de registro */}
       <Route path="/" element={<SignUp />} />
+      {/* pagina de login */}
       <Route path='/login' element={<LoginPage />} />
+      {/* pagina de dashboard */}
       <Route path='/dashboard' element={
         <RequireAuth>
           <DashboardPage />
