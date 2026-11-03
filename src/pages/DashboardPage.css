@@ -1,58 +1,123 @@
-/* Contenedor principal: centra la card en toda la pantalla con fondo degradado tierra */
+/* ============================================================
+   DashboardPage.css
+   Estilos de la vista Dashboard, alineados con LoginPage / SignUp
+   ============================================================ */
+
+/* Contenedor principal: fondo degradado tierra y cards apiladas */
 .dashboard-container {
+  /* Paleta local para no repetir colores en cada regla */
+  --db-card: #FDF8F3;
+  --db-surface: #FFFDF9;
+  --db-border: #D4C4B0;
+  --db-text: #3E2F23;
+  --db-text-soft: #8B7355;
+  --db-text-muted: #A0826D;
+  --db-accent: #B8735A;
+  --db-accent-dark: #9B5E47;
+  --db-danger-bg: #F5E6E0;
+  --db-danger-border: #D4A59A;
+  --db-danger-text: #9B4A3C;
+  --db-success-bg: #E8F5E9;
+  --db-success-text: #2E7D32;
+
   min-height: 100svh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: 24px;
   padding: 24px;
   background: linear-gradient(135deg, #8B7355 0%, #A0826D 100%);
   font-family: var(--sans);
   box-sizing: border-box;
 }
 
-/* Card centrada con sombra y bordes redondeados, tono crema cálido */
+/* Card base: ancho completo pero limitado para que sea legible */
 .dashboard-card {
   width: 100%;
-  max-width: 420px;
-  background: #FDF8F3;
+  max-width: 1100px;
+  background: var(--db-card);
   border-radius: 16px;
-  padding: 40px 32px;
+  padding: 32px;
   box-shadow: 0 20px 60px rgba(62, 47, 35, 0.25);
   box-sizing: border-box;
-  text-align: center;
-  gap: 16rem
+  text-align: left;
+}
+
+/* ------------------------------------------------------------
+   Header: datos del usuario y botón de cerrar sesión
+   ------------------------------------------------------------ */
+
+.dashboard-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Columna izquierda del header: título, bienvenida y datos */
+.dashboard-header-info {
+  flex: 1 1 320px;
+  min-width: 0;
 }
 
 /* Título principal del dashboard, marrón oscuro */
 .dashboard-title {
   font-size: 28px;
   font-weight: 700;
-  color: #3E2F23;
-  margin: 0 0 16px;
+  color: var(--db-text);
+  margin: 0 0 8px;
   letter-spacing: -0.5px;
 }
 
-/* Email del usuario autenticado, tono marrón medio */
-.dashboard-email {
-  font-size: 15px;
-  color: #8B7355;
-  margin: 0 0 8px;
-}
-
-/* Mensaje de bienvenida, tono marrón claro */
+/* Mensaje de bienvenida, tono marrón medio */
 .dashboard-welcome {
   font-size: 15px;
-  color: #A0826D;
-  margin: 0 0 24px;
+  color: var(--db-text-soft);
+  margin: 0 0 16px;
+}
+
+/* Fila con el usuario y el UID */
+.dashboard-user-data {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+/* Dato del usuario (email o UID) */
+.dashboard-email {
+  margin: 0;
+  font-size: 14px;
+  color: var(--db-text);
+  overflow-wrap: anywhere;
+}
+
+/* Etiqueta chica en mayúsculas: "Usuario" / "UID" */
+.dashboard-label {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--db-text-muted);
+}
+
+/* El UUID es largo: fuente monoespaciada y corte de línea */
+.dashboard-uid {
+  font-family: var(--mono);
+  font-size: 13px;
 }
 
 /* Botón de cierre de sesión con degradado terracota */
 .dashboard-logout {
-  padding: 12px 32px;
+  flex-shrink: 0;
+  padding: 12px 24px;
   font-size: 15px;
   font-weight: 600;
   color: #FFFDF9;
-  background: linear-gradient(135deg, #B8735A 0%, #9B5E47 100%);
+  background: linear-gradient(135deg, var(--db-accent) 0%, var(--db-accent-dark) 100%);
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -60,23 +125,322 @@
   font-family: var(--sans);
 }
 
-/* Hover del botón de logout: se eleva levemente */
+/* Hover del logout: se eleva levemente */
 .dashboard-logout:hover {
   transform: translateY(-1px);
   box-shadow: 0 8px 20px rgba(184, 115, 90, 0.4);
 }
 
-/* Ajustes para pantallas pequeñas (móviles) */
-@media (max-width: 480px) {
+/* ------------------------------------------------------------
+   Card principal: formulario + listado de tareas
+   ------------------------------------------------------------ */
+
+.dashboard-main-card {
+  padding: 32px;
+}
+
+/* Título de la sección "Nueva tarea" */
+.dashboard-section-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--db-text);
+  margin: 0 0 20px;
+  letter-spacing: -0.3px;
+}
+
+/* Formulario en fila: título, descripción y botón */
+.dashboard-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 16px;
+}
+
+/* Agrupa label + input en columna */
+.dashboard-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Etiqueta de cada campo */
+.dashboard-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--db-text-soft);
+}
+
+/* Inputs con el mismo estilo que Login / SignUp */
+.dashboard-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  color: var(--db-text);
+  background: var(--db-surface);
+  border: 2px solid var(--db-border);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: var(--sans);
+  box-sizing: border-box;
+}
+
+/* Focus terracota con glow suave */
+.dashboard-input:focus {
+  border-color: var(--db-accent);
+  box-shadow: 0 0 0 3px rgba(184, 115, 90, 0.15);
+}
+
+/* ------------------------------------------------------------
+   Botones del componente Button dentro del dashboard
+   (Button.css está comentado, por eso se estilizan acá)
+   ------------------------------------------------------------ */
+
+.dashboard-form .button,
+.dashboard-task-actions .button {
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFDF9;
+  background: linear-gradient(135deg, var(--db-accent) 0%, var(--db-accent-dark) 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  font-family: var(--sans);
+  white-space: nowrap;
+}
+
+/* Hover de los botones: se elevan levemente */
+.dashboard-form .button:not(:disabled):hover,
+.dashboard-task-actions .button:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(184, 115, 90, 0.4);
+}
+
+/* Botones deshabilitados (título con menos de 2 caracteres) */
+.dashboard-form .button:disabled,
+.dashboard-task-actions .button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Variante danger: borde y texto terracota sobre fondo claro */
+.dashboard-task-actions .button.danger {
+  color: var(--db-danger-text);
+  background: transparent;
+  border: 2px solid var(--db-danger-border);
+}
+
+.dashboard-task-actions .button.danger:not(:disabled):hover {
+  background: var(--db-danger-bg);
+  box-shadow: none;
+}
+
+/* Variante ghost: botón neutro para Editar y Cancelar */
+.dashboard-task-actions .button.ghost {
+  color: var(--db-text-soft);
+  background: transparent;
+  border: 2px solid var(--db-border);
+}
+
+.dashboard-task-actions .button.ghost:not(:disabled):hover {
+  background: #F5EDE4;
+  border-color: #B8A89A;
+  box-shadow: none;
+}
+
+/* Foco visible para navegación con teclado */
+.dashboard-logout:focus-visible,
+.dashboard-form .button:focus-visible,
+.dashboard-task-actions .button:focus-visible {
+  outline: 3px solid rgba(184, 115, 90, 0.35);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------
+   Listado de tareas
+   ------------------------------------------------------------ */
+
+.dashboard-task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--db-border);
+}
+
+/* Cada tarea como mini-card */
+.dashboard-task-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--db-surface);
+  border: 1px solid var(--db-border);
+  border-radius: 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-task-item:hover {
+  border-color: var(--db-accent);
+  box-shadow: 0 6px 16px rgba(62, 47, 35, 0.08);
+}
+
+/* Tarea en modo edición: resalta la card y ocupa todo el ancho */
+.dashboard-task-item--editing {
+  background: var(--db-card);
+  border-color: var(--db-accent);
+  box-shadow: 0 6px 16px rgba(62, 47, 35, 0.08);
+}
+
+/* Formulario de edición en línea */
+.dashboard-task-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+}
+
+.dashboard-task-edit .dashboard-task-actions {
+  justify-content: flex-end;
+}
+
+/* Información de la tarea (título, descripción, estado y fecha) */
+.dashboard-task-info {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.dashboard-task-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--db-text);
+  margin: 0 0 4px;
+  overflow-wrap: anywhere;
+}
+
+.dashboard-task-description {
+  font-size: 14px;
+  color: var(--db-text-soft);
+  margin: 0 0 10px;
+  overflow-wrap: anywhere;
+}
+
+/* Fila con el estado y la fecha */
+.dashboard-task-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  font-size: 13px;
+  color: var(--db-text-muted);
+}
+
+/* Etiqueta de estado */
+.dashboard-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dashboard-badge--done {
+  background: var(--db-success-bg);
+  color: var(--db-success-text);
+}
+
+.dashboard-badge--pending {
+  background: var(--db-danger-bg);
+  color: var(--db-danger-text);
+}
+
+/* Botones de cada tarea: completar / eliminar */
+.dashboard-task-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Mensaje cuando no hay tareas */
+.dashboard-empty {
+  padding: 8px 0;
+  text-align: center;
+  font-size: 15px;
+  color: var(--db-text-muted);
+}
+
+/* ------------------------------------------------------------
+   Cards de carga y error (early returns)
+   ------------------------------------------------------------ */
+
+.dashboard-container--status {
+  justify-content: center;
+}
+
+.dashboard-status-card {
+  max-width: 420px;
+  padding: 40px 32px;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+
+/* Tablets: el formulario pasa a una sola columna */
+@media (max-width: 860px) {
+  .dashboard-form {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-form .button {
+    width: 100%;
+  }
+}
+
+/* Móviles: header y tareas apiladas */
+@media (max-width: 600px) {
   .dashboard-container {
+    gap: 16px;
     padding: 16px;
   }
 
   .dashboard-card {
-    padding: 32px 24px;
+    padding: 24px 20px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .dashboard-title {
     font-size: 24px;
+  }
+
+  .dashboard-logout {
+    width: 100%;
+  }
+
+  .dashboard-task-item {
+    flex-direction: column;
+  }
+
+  .dashboard-task-actions {
+    width: 100%;
+  }
+
+  .dashboard-task-actions .button {
+    flex: 1;
   }
 }

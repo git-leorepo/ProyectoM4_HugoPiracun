@@ -33,7 +33,7 @@ export const updateTask = async (task: Task): Promise<Task> => {
     const tasks: Task[] = localTasks === null ? [] : JSON.parse(localTasks);
 
     const updatedTasks = tasks.map((task) =>
-        task.id === id ? { ...task, changes } : task
+        task.id === id ? { ...task, ...changes } : task
     );
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedTasks));
 

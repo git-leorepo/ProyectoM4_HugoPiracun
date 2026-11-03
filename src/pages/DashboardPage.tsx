@@ -22,6 +22,10 @@ const DashboardPage = () => {
     const [error, setError] = useState<string | null>(null);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    // Estados para la edición en línea de una tarea
+    const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+    const [editTitle, setEditTitle] = useState("");
+    const [editDescription, setEditDescription] = useState("");
 
 
 
@@ -82,6 +86,51 @@ const DashboardPage = () => {
         }
     };
 
+
+    const handleEditar = async (
+        task: Task,
+        action: "start" | "save" | "cancel" = "start",
+    ) => {
+        // Cancela la edición y limpia los campos
+        if (action === "cancel") {
+            setEditingTaskId(null);
+            setEditTitle("");
+            setEditDescription("");
+            return;
+        }
+
+        // Activa el modo edición con los datos actuales de la tarea
+        if (action === "start") {
+            setEditingTaskId(task.id);
+            setEditTitle(task.title);
+            setEditDescription(task.description);
+            return;
+        }
+
+        // Guarda los cambios (misma validación que al crear: título mínimo de 2 caracteres)
+        if (editTitle.trim().length < 2) return;
+
+        setIsLoading(true);
+
+        try {
+            const updatedTask = await updateTask({
+                ...task,
+                title: editTitle.trim(),
+                description: editDescription.trim(),
+            });
+            setTasks(
+                tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)),
+            );
+            setEditingTaskId(null);
+            setEditTitle("");
+            setEditDescription("");
+        } catch {
+            setError("Error al actualizar la tarea");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const handleDelete = async (task: Task) => {
         setIsLoading(true);
 
@@ -99,8 +148,8 @@ const DashboardPage = () => {
     //Early return
     if (isLoading) {
         return (
-            <div className="dashboard-container">
-                <div className="dashboard-card">
+            <div className="dashboard-container dashboard-container--status">
+                <div className="dashboard-card dashboard-status-card">
                     <p>Cargando tareas...</p>
                 </div>
             </div>
@@ -110,8 +159,8 @@ const DashboardPage = () => {
     //Early return
     if (error) {
         return (
-            <div className="dashboard-container">
-                <div className="dashboard-card">
+            <div className="dashboard-container dashboard-container--status">
+                <div className="dashboard-card dashboard-status-card">
                     <p>Error al cargar tareas</p>
                 </div>
             </div>
@@ -128,74 +177,151 @@ const DashboardPage = () => {
     };
 
     return (
-        // Contenedor principal: centra la card con fondo degradado tierra
+        // Contenedor principal: fondo degradado tierra y cards apiladas
         <div className="dashboard-container">
-            {/* Card centrada con sombra y bordes redondeados */}
-            <div className="dashboard-card">
-                {/* Título principal del dashboard */}
-                <h1 className="dashboard-title">Dashboard</h1>
-                {/* Email del usuario autenticado */}
-                <p className="dashboard-email">User: {user?.email}</p>
-                {/* UID  del usuario autenticado */}
-                <p className="dashboard-email">UID: {user?.uid}</p>
-                {/* Mensaje de bienvenida */}
-                <p className="dashboard-welcome">¡Bienvenido a tu aplicación Todo!</p>
+            {/* HEADER: usuario, UID, bienvenida y cierre de sesión */}
+            <header className="dashboard-card dashboard-header">
+                <div className="dashboard-header-info">
+                    {/* Título principal del dashboard */}
+                    <h1 className="dashboard-title">Dashboard</h1>
+                    {/* Mensaje de bienvenida */}
+                    <p className="dashboard-welcome">¡Bienvenido a tu aplicación Todo!</p>
+
+                    <div className="dashboard-user-data">
+                        {/* Email del usuario autenticado */}
+                        <p className="dashboard-email">
+                            <span className="dashboard-label">Usuario</span>
+                            {user?.email}
+                        </p>
+                        {/* UID del usuario autenticado */}
+                        <p className="dashboard-email dashboard-uid">
+                            <span className="dashboard-label">UID</span>
+                            {user?.uid}
+                        </p>
+                    </div>
+                </div>
+
                 {/* Botón de cierre de sesión */}
                 <button className="dashboard-logout" onClick={handleCloseSession}>
-                    Logout
+                    Cerrar sesión
                 </button>
-            </div>
-            <br />
-            <div className="dashboard-card">
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="task-title">Titulo Tarea:   </label>
-                    <input
-                        id="task-title"
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Escribí una tarea"
-                    />
-                    <label htmlFor="task-title">Descripcion:   </label>
-                    <input
-                        id="task-description"
-                        type="text"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Escribí una descripcion"
-                    />
+            </header>
 
-                    <br />
+            {/* Card ancha: formulario para agregar tareas y listado */}
+            <main className="dashboard-card dashboard-main-card">
+                <h2 className="dashboard-section-title">Nueva tarea</h2>
+
+                <form className="dashboard-form" onSubmit={handleSubmit}>
+                    <div className="dashboard-field">
+                        <label htmlFor="task-title">Título de la tarea</label>
+                        <input
+                            className="dashboard-input"
+                            id="task-title"
+                            type="text"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="Escribí una tarea"
+                        />
+                    </div>
+
+                    <div className="dashboard-field">
+                        <label htmlFor="task-description">Descripción</label>
+                        <input
+                            className="dashboard-input"
+                            id="task-description"
+                            type="text"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Escribí una descripción"
+                        />
+                    </div>
+
                     {/* Esta validacion es simple, debe ser mejorada y mas exacta */}
-                    <Button type="submit" disabled={title.length < 2}>
+                    <Button className="dashboard-add-button" type="submit" disabled={title.length < 2}>
                         Agregar
                     </Button>
                 </form>
 
-                {tasks.length !== 0 ? (
-                    tasks.map((task, i) => (
-                        <div key={i}>
-                            <p>Titulo tarea: {task.title}</p>
-                            <p>Descripcion: {task.description}</p>
-                            <p>
-                                Estado: {task.completed ? "Completada" : "Pendiente"}{" "}
-                                <br />
-                                Fecha: {new Date(task.createdAt).toLocaleString("es")}
-                            </p>
-                            <Button onClick={() => void handleToggle(task)}>
-                                {task.completed ? "Marcar pendiente" : "Completar"}
-                            </Button>
-                            <Button variant="danger" onClick={() => void handleDelete(task)}>
-                                Eliminar
-                            </Button>
-                        </div>
-                    ))
-                ) : (
-                    <p>No hay tareas</p>
-                )}
+                <div className="dashboard-task-list">
+                    {tasks.length !== 0 ? (
+                        tasks.map((task, i) => (
+                            <article
+                                className={`dashboard-task-item${editingTaskId === task.id ? " dashboard-task-item--editing" : ""}`}
+                                key={i}
+                            >
+                                {editingTaskId === task.id ? (
+                                    // Modo edición: inputs para título y descripción
+                                    <div className="dashboard-task-edit">
+                                        <div className="dashboard-field">
+                                            <label htmlFor={`edit-title-${task.id}`}>Título de la tarea</label>
+                                            <input
+                                                className="dashboard-input"
+                                                id={`edit-title-${task.id}`}
+                                                type="text"
+                                                value={editTitle}
+                                                onChange={(e) => setEditTitle(e.target.value)}
+                                                placeholder="Escribí un título"
+                                            />
+                                        </div>
 
-            </div>
+                                        <div className="dashboard-field">
+                                            <label htmlFor={`edit-description-${task.id}`}>Descripción</label>
+                                            <input
+                                                className="dashboard-input"
+                                                id={`edit-description-${task.id}`}
+                                                type="text"
+                                                value={editDescription}
+                                                onChange={(e) => setEditDescription(e.target.value)}
+                                                placeholder="Escribí una descripción"
+                                            />
+                                        </div>
 
+                                        <div className="dashboard-task-actions">
+                                            <Button
+                                                onClick={() => void handleEditar(task, "save")}
+                                                disabled={editTitle.trim().length < 2}
+                                            >
+                                                Guardar
+                                            </Button>
+                                            <Button variant="ghost" onClick={() => void handleEditar(task, "cancel")}>
+                                                Cancelar
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    // Modo lectura: datos de la tarea y acciones
+                                    <>
+                                        <div className="dashboard-task-info">
+                                            <h3 className="dashboard-task-title">{task.title}</h3>
+                                            <p className="dashboard-task-description">{task.description}</p>
+                                            <p className="dashboard-task-meta">
+                                                <span className={`dashboard-badge ${task.completed ? "dashboard-badge--done" : "dashboard-badge--pending"}`}>
+                                                    {task.completed ? "Completada" : "Pendiente"}
+                                                </span>
+                                                <span>Fecha: {new Date(task.createdAt).toLocaleString("es")}</span>
+                                            </p>
+                                        </div>
+
+                                        <div className="dashboard-task-actions">
+                                            <Button onClick={() => void handleToggle(task)}>
+                                                {task.completed ? "Pendiente" : "Completa"}
+                                            </Button>
+                                            <Button variant="ghost" onClick={() => void handleEditar(task)}>
+                                                Editar
+                                            </Button>
+                                            <Button variant="danger" onClick={() => void handleDelete(task)}>
+                                                Eliminar
+                                            </Button>
+                                        </div>
+                                    </>
+                                )}
+                            </article>
+                        ))
+                    ) : (
+                        <p className="dashboard-empty">No hay tareas todavía.</p>
+                    )}
+                </div>
+            </main>
         </div>
     );
 };
