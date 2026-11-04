@@ -33,7 +33,7 @@ const DashboardPage = () => {
     useEffect(() => {
         const loadTasks = async () => {
             try {
-                const data = await getTasks();
+                const data = await getTasks(user?.uid);
                 setTasks(data);
             } catch (error) {
                 setError("Error al cargar tareas");
