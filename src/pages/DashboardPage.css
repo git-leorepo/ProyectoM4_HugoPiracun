@@ -1,19 +1,19 @@
 /* ============================================================
    DashboardPage.css
-   Estilos de la vista Dashboard, alineados con LoginPage / SignUp
+   Estilos de la vista Dashboard con tema azul petróleo
    ============================================================ */
 
-/* Contenedor principal: fondo degradado tierra y cards apiladas */
+/* Contenedor principal: fondo degradado azul petróleo y cards apiladas */
 .dashboard-container {
   /* Paleta local para no repetir colores en cada regla */
-  --db-card: #FDF8F3;
-  --db-surface: #FFFDF9;
-  --db-border: #D4C4B0;
-  --db-text: #3E2F23;
-  --db-text-soft: #8B7355;
-  --db-text-muted: #A0826D;
-  --db-accent: #B8735A;
-  --db-accent-dark: #9B5E47;
+  --db-card: #F4F9FA;
+  --db-surface: #FBFDFD;
+  --db-border: #B9D3D9;
+  --db-text: #1F3B42;
+  --db-text-soft: #3F6B75;
+  --db-text-muted: #5E8A94;
+  --db-accent: #2F6F7C;
+  --db-accent-dark: #24565F;
   --db-danger-bg: #F5E6E0;
   --db-danger-border: #D4A59A;
   --db-danger-text: #9B4A3C;
@@ -27,7 +27,7 @@
   justify-content: flex-start;
   gap: 24px;
   padding: 24px;
-  background: linear-gradient(135deg, #8B7355 0%, #A0826D 100%);
+  background: linear-gradient(135deg, #2F5D6B 0%, #4A8694 100%);
   font-family: var(--sans);
   box-sizing: border-box;
 }
@@ -39,7 +39,7 @@
   background: var(--db-card);
   border-radius: 16px;
   padding: 32px;
-  box-shadow: 0 20px 60px rgba(62, 47, 35, 0.25);
+  box-shadow: 0 20px 60px rgba(31, 59, 66, 0.25);
   box-sizing: border-box;
   text-align: left;
 }
@@ -62,7 +62,7 @@
   min-width: 0;
 }
 
-/* Título principal del dashboard, marrón oscuro */
+/* Título principal del dashboard, azul petróleo oscuro */
 .dashboard-title {
   font-size: 28px;
   font-weight: 700;
@@ -71,7 +71,7 @@
   letter-spacing: -0.5px;
 }
 
-/* Mensaje de bienvenida, tono marrón medio */
+/* Mensaje de bienvenida, tono azul petróleo medio */
 .dashboard-welcome {
   font-size: 15px;
   color: var(--db-text-soft);
@@ -110,13 +110,13 @@
   font-size: 13px;
 }
 
-/* Botón de cierre de sesión con degradado terracota */
+/* Botón de cierre de sesión con degradado azul petróleo */
 .dashboard-logout {
   flex-shrink: 0;
   padding: 12px 24px;
   font-size: 15px;
   font-weight: 600;
-  color: #FFFDF9;
+  color: #F7FCFD;
   background: linear-gradient(135deg, var(--db-accent) 0%, var(--db-accent-dark) 100%);
   border: none;
   border-radius: 10px;
@@ -128,7 +128,7 @@
 /* Hover del logout: se eleva levemente */
 .dashboard-logout:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(184, 115, 90, 0.4);
+  box-shadow: 0 8px 20px rgba(47, 111, 124, 0.4);
 }
 
 /* ------------------------------------------------------------
@@ -186,10 +186,10 @@
   box-sizing: border-box;
 }
 
-/* Focus terracota con glow suave */
+/* Focus azul petróleo con glow suave */
 .dashboard-input:focus {
   border-color: var(--db-accent);
-  box-shadow: 0 0 0 3px rgba(184, 115, 90, 0.15);
+  box-shadow: 0 0 0 3px rgba(47, 111, 124, 0.15);
 }
 
 /* ------------------------------------------------------------
@@ -202,7 +202,7 @@
   padding: 12px 20px;
   font-size: 15px;
   font-weight: 600;
-  color: #FFFDF9;
+  color: #F7FCFD;
   background: linear-gradient(135deg, var(--db-accent) 0%, var(--db-accent-dark) 100%);
   border: none;
   border-radius: 10px;
@@ -216,7 +216,7 @@
 .dashboard-form .button:not(:disabled):hover,
 .dashboard-task-actions .button:not(:disabled):hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(184, 115, 90, 0.4);
+  box-shadow: 0 8px 20px rgba(47, 111, 124, 0.4);
 }
 
 /* Botones deshabilitados (título con menos de 2 caracteres) */
@@ -246,8 +246,8 @@
 }
 
 .dashboard-task-actions .button.ghost:not(:disabled):hover {
-  background: #F5EDE4;
-  border-color: #B8A89A;
+  background: #E6F1F3;
+  border-color: #9EBFC6;
   box-shadow: none;
 }
 
@@ -255,7 +255,7 @@
 .dashboard-logout:focus-visible,
 .dashboard-form .button:focus-visible,
 .dashboard-task-actions .button:focus-visible {
-  outline: 3px solid rgba(184, 115, 90, 0.35);
+  outline: 3px solid rgba(47, 111, 124, 0.35);
   outline-offset: 2px;
 }
 
@@ -288,14 +288,14 @@
 
 .dashboard-task-item:hover {
   border-color: var(--db-accent);
-  box-shadow: 0 6px 16px rgba(62, 47, 35, 0.08);
+  box-shadow: 0 6px 16px rgba(31, 59, 66, 0.08);
 }
 
 /* Tarea en modo edición: resalta la card y ocupa todo el ancho */
 .dashboard-task-item--editing {
   background: var(--db-card);
   border-color: var(--db-accent);
-  box-shadow: 0 6px 16px rgba(62, 47, 35, 0.08);
+  box-shadow: 0 6px 16px rgba(31, 59, 66, 0.08);
 }
 
 /* Formulario de edición en línea */

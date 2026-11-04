@@ -1,23 +1,23 @@
-/* Contenedor principal: centra la card en toda la pantalla con fondo degradado tierra */
+/* Contenedor principal: centra la card en toda la pantalla con fondo degradado beige arena */
 .signup-container {
   min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: linear-gradient(135deg, #8B7355 0%, #A0826D 100%);
+  background: linear-gradient(135deg, #C9B79C 0%, #E3D6C3 100%);
   font-family: var(--sans);
   box-sizing: border-box;
 }
 
-/* Card centrada con sombra y bordes redondeados, tono crema cálido */
+/* Card centrada con sombra y bordes redondeados, tono beige claro */
 .signup-card {
   width: 100%;
   max-width: 420px;
-  background: #FDF8F3;
+  background: #FDFBF7;
   border-radius: 16px;
   padding: 40px 32px;
-  box-shadow: 0 20px 60px rgba(62, 47, 35, 0.25);
+  box-shadow: 0 20px 60px rgba(59, 52, 40, 0.25);
   box-sizing: border-box;
   text-align: center;
 }
@@ -26,15 +26,15 @@
 .signup-title {
   font-size: 28px;
   font-weight: 700;
-  color: #3E2F23;
+  color: #3B3428;
   margin: 0 0 8px;
   letter-spacing: -0.5px;
 }
 
-/* Subtítulo debajo del título, tono marrón medio */
+/* Subtítulo debajo del título, tono beige oscuro */
 .signup-subtitle {
   font-size: 15px;
-  color: #8B7355;
+  color: #7A6E5A;
   margin: 0 0 24px;
 }
 
@@ -70,34 +70,39 @@
   gap: 16px;
 }
 
-/* Campos de texto (email y password), bordes beige */
+/* Campos de texto (email y password), bordes beige claro */
 .signup-input {
   padding: 12px 16px;
   font-size: 15px;
-  border: 2px solid #D4C4B0;
+  border: 2px solid #DCD2C1;
   border-radius: 10px;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   font-family: var(--sans);
   box-sizing: border-box;
   width: 100%;
-  background: #FFFDF9;
-  color: #3E2F23;
+  background: #FFFFFF;
+  color: #3B3428;
 }
 
-/* Estado focus de los inputs: borde terracota con glow suave */
+/* Texto de ayuda de los inputs, tono beige */
+.signup-input::placeholder {
+  color: #877A64;
+}
+
+/* Estado focus de los inputs: borde beige con glow suave */
 .signup-input:focus {
-  border-color: #B8735A;
-  box-shadow: 0 0 0 3px rgba(184, 115, 90, 0.15);
+  border-color: #8C7A5E;
+  box-shadow: 0 0 0 3px rgba(140, 122, 94, 0.2);
 }
 
-/* Botón principal de registro con degradado terracota */
+/* Botón principal de registro con degradado beige */
 .signup-button {
   padding: 14px 24px;
   font-size: 16px;
   font-weight: 600;
-  color: #FFFDF9;
-  background: linear-gradient(135deg, #B8735A 0%, #9B5E47 100%);
+  color: #FDFBF7;
+  background: linear-gradient(135deg, #7E6D53 0%, #6B5B42 100%);
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -109,7 +114,7 @@
 /* Hover del botón principal: se eleva levemente */
 .signup-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(184, 115, 90, 0.4);
+  box-shadow: 0 8px 20px rgba(140, 122, 94, 0.4);
 }
 
 /* Separador "o continúa con" */
@@ -120,23 +125,23 @@
   margin: 24px 0 16px;
 }
 
-/* Líneas laterales del separador, tono beige */
+/* Líneas laterales del separador, tono beige claro */
 .signup-divider::before,
 .signup-divider::after {
   content: "";
   flex: 1;
   height: 1px;
-  background: #D4C4B0;
+  background: #DCD2C1;
 }
 
 /* Texto del separador */
 .signup-divider-text {
   font-size: 13px;
-  color: #A0826D;
+  color: #877A64;
   white-space: nowrap;
 }
 
-/* Botón de Google con borde y fondo blanco cálido */
+/* Botón de Google con borde y fondo claro */
 .signup-google {
   display: flex;
   align-items: center;
@@ -145,9 +150,9 @@
   padding: 12px 24px;
   font-size: 15px;
   font-weight: 500;
-  color: #3E2F23;
-  background: #FFFDF9;
-  border: 2px solid #D4C4B0;
+  color: #3B3428;
+  background: #FFFFFF;
+  border: 2px solid #DCD2C1;
   border-radius: 10px;
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s;
@@ -158,8 +163,8 @@
 
 /* Hover del botón de Google */
 .signup-google:hover {
-  background: #F5EDE4;
-  border-color: #B8A89A;
+  background: #F3EDE3;
+  border-color: #C9BDA9;
 }
 
 /* Ícono de Google dentro del botón */
@@ -173,12 +178,12 @@
 .signup-footer {
   margin: 24px 0 0;
   font-size: 14px;
-  color: #8B7355;
+  color: #7A6E5A;
 }
 
-/* Enlace de login en el pie de página, terracota */
+/* Enlace de login en el pie de página, beige */
 .signup-link {
-  color: #B8735A;
+  color: #6B5B42;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
@@ -186,7 +191,7 @@
 
 /* Hover del enlace de login */
 .signup-link:hover {
-  color: #9B5E47;
+  color: #54452F;
   text-decoration: underline;
 }
 
