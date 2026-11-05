@@ -56,10 +56,11 @@ const DashboardPage = () => {
                 userId: user?.uid ?? "unknown",
                 createdAt: new Date().toISOString(),
             });
-
-            setTasks([...tasks, newTask]);
+            
+            setTasks([...tasks, newTask]);           
             setTitle("");
             setDescription("");
+
         } catch {
             setError("Error al crear la tarea");
         } finally {
