@@ -14,6 +14,19 @@ import Button from "../componentes/ui/button/button";
  * Muestra el email del usuario logueado y permite cerrar sesión.
  * Protegida por RequireAuth — solo accesible con sesión activa.
  */
+
+
+//esto debemos agregarlo
+type FormStatus = "idle" | "loading" | "success" | "error";
+
+type ApiResponse = {
+    message?: string;
+    error?: string;
+    detail?: string;
+};
+
+
+
 const DashboardPage = () => {
     const navigate = useNavigate();
     const { user, logout } = useAuth();
@@ -27,6 +40,9 @@ const DashboardPage = () => {
     const [editTitle, setEditTitle] = useState("");
     const [editDescription, setEditDescription] = useState("");
 
+    //Estados del correo
+    const [status, setStatus] = useState<FormStatus>("idle");
+    const [feedback, setFeedback] = useState("");
 
 
     //como no puedo ejecutar un use effect asincrono, lo que hago es crear una funcion asincrona dentro de un useEffect y la ejecuto al final
@@ -44,9 +60,25 @@ const DashboardPage = () => {
         loadTasks();
     }, []);
 
+    // Oculta el mensaje de éxito unos segundos después de mostrarse.
+    // Solo administra la visibilidad del feedback: no interviene en el envío.
+    useEffect(() => {
+        if (status !== "success") return;
+
+        const timer = setTimeout(() => {
+            setFeedback("");
+            setStatus("idle");
+        }, 4000);
+
+        return () => clearTimeout(timer);
+    }, [status]);
+
     const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
-        setIsLoading(true);
+        //setIsLoading(true);
+        //esto debemos crearlo
+        setStatus("loading");
+        setFeedback("Enviando mensaje...");
 
         try {
             const newTask = await addTask({
@@ -56,13 +88,51 @@ const DashboardPage = () => {
                 userId: user?.uid ?? "unknown",
                 createdAt: new Date().toISOString(),
             });
-            
-            setTasks([...tasks, newTask]);           
+
+            //esto debemos crearlo
+            const response = await fetch("/api/send-email", {
+                method: "POST",
+                //esto debemos crearlo
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                //esto debemos crearlo
+                body: JSON.stringify({
+                    name: user?.displayName ?? user?.email ?? "Usuario",
+                    email: user?.email ?? "",
+                    message: `Nueva tarea: ${title}\nDescripción: ${description}`,
+                }),
+            });
+            //esto debemos crearlo con otra variable
+            const data1 = (await response.json()) as ApiResponse;
+
+            //esto debemos crearlo
+            if (!response.ok) {
+                const errorMessage = data1.error ?? "No se pudo enviar el mensaje";
+
+                throw new Error(
+                    data1.detail ? `${errorMessage}: ${data1.detail}` : errorMessage,
+                );
+            }
+
+            //esto debemos crearlo
+            setStatus("success");
+            setFeedback(data1.message ?? "Mensaje enviado correctamente");
+
+            setTasks([...tasks, newTask]);
             setTitle("");
             setDescription("");
 
-        } catch {
+        } catch (error) {
+            //cambiar para presentar el proyecto y forzar que el envio del correo 
             setError("Error al crear la tarea");
+            //esto debemos agregarlo
+            setStatus("error");
+            setFeedback(
+                error instanceof Error ? error.message : "Ocurrió un error inesperado",
+            );
+
+
         } finally {
             setIsLoading(false);
         }
@@ -238,9 +308,14 @@ const DashboardPage = () => {
                     </div>
 
                     {/* Esta validacion es simple, debe ser mejorada y mas exacta */}
-                    <Button className="dashboard-add-button" type="submit" disabled={title.length < 2}>
+                    <Button className="dashboard-add-button" type="submit" disabled={title.length < 2 && status === "loading"}>
                         Agregar
                     </Button>
+                    {feedback && (
+                        <p className={`dashboard-feedback dashboard-feedback--${status}`} role="status">
+                            {feedback}
+                        </p>
+                    )}
                 </form>
 
                 <div className="dashboard-task-list">

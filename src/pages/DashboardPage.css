@@ -18,7 +18,11 @@
   --db-danger-border: #D4A59A;
   --db-danger-text: #9B4A3C;
   --db-success-bg: #E8F5E9;
+  --db-success-border: #A5D6A7;
   --db-success-text: #2E7D32;
+  --db-info-bg: #E6F1F3;
+  --db-info-border: #9EBFC6;
+  --db-info-text: #24565F;
 
   min-height: 100svh;
   display: flex;
@@ -190,6 +194,67 @@
 .dashboard-input:focus {
   border-color: var(--db-accent);
   box-shadow: 0 0 0 3px rgba(47, 111, 124, 0.15);
+}
+
+/* ------------------------------------------------------------
+   Feedback del envío de correo (enviando / éxito / error)
+   ------------------------------------------------------------ */
+
+/* Banner base: ocupa todo el ancho del formulario */
+.dashboard-feedback {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid transparent;
+  border-left-width: 4px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+/* Enviando mensaje... */
+.dashboard-feedback--loading {
+  background: var(--db-info-bg);
+  border-color: var(--db-info-border);
+  color: var(--db-info-text);
+  animation: dashboard-feedback-pulse 1.4s ease-in-out infinite;
+}
+
+/* Correo enviado correctamente */
+.dashboard-feedback--success {
+  background: var(--db-success-bg);
+  border-color: var(--db-success-border);
+  color: var(--db-success-text);
+  animation: dashboard-feedback-out 0.4s ease 3.6s forwards;
+}
+
+/* Error al enviar el correo */
+.dashboard-feedback--error {
+  background: var(--db-danger-bg);
+  border-color: var(--db-danger-border);
+  color: var(--db-danger-text);
+}
+
+/* Pulso suave para indicar que el envío está en curso */
+@keyframes dashboard-feedback-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Desvanecido del mensaje de éxito antes de quitarlo del DOM */
+@keyframes dashboard-feedback-out {
+  to {
+    opacity: 0;
+  }
 }
 
 /* ------------------------------------------------------------
