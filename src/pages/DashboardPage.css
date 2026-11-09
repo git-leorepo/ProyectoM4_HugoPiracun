@@ -1,28 +1,29 @@
 /* ============================================================
    DashboardPage.css
-   Estilos de la vista Dashboard con tema azul petróleo
+   Estilos de la vista Dashboard con tema beige arena
    ============================================================ */
 
-/* Contenedor principal: fondo degradado azul petróleo y cards apiladas */
+/* Contenedor principal: fondo degradado beige arena y cards apiladas */
 .dashboard-container {
   /* Paleta local para no repetir colores en cada regla */
-  --db-card: #F4F9FA;
-  --db-surface: #FBFDFD;
-  --db-border: #B9D3D9;
-  --db-text: #1F3B42;
-  --db-text-soft: #3F6B75;
-  --db-text-muted: #5E8A94;
-  --db-accent: #2F6F7C;
-  --db-accent-dark: #24565F;
+  --db-card: #FDFBF7;
+  --db-surface: #FFFFFF;
+  --db-border: #DCD2C1;
+  --db-text: #3B3428;
+  --db-text-soft: #7A6E5A;
+  --db-text-muted: #877A64;
+  --db-accent: #7E6D53;
+  --db-accent-dark: #6B5B42;
+  --db-focus: #8C7A5E;
   --db-danger-bg: #F5E6E0;
   --db-danger-border: #D4A59A;
   --db-danger-text: #9B4A3C;
   --db-success-bg: #E8F5E9;
   --db-success-border: #A5D6A7;
   --db-success-text: #2E7D32;
-  --db-info-bg: #E6F1F3;
-  --db-info-border: #9EBFC6;
-  --db-info-text: #24565F;
+  --db-info-bg: #F3EDE3;
+  --db-info-border: #C9BDA9;
+  --db-info-text: #6B5B42;
 
   min-height: 100svh;
   display: flex;
@@ -31,7 +32,7 @@
   justify-content: flex-start;
   gap: 24px;
   padding: 24px;
-  background: linear-gradient(135deg, #2F5D6B 0%, #4A8694 100%);
+  background: linear-gradient(135deg, #C9B79C 0%, #E3D6C3 100%);
   font-family: var(--sans);
   box-sizing: border-box;
 }
@@ -43,7 +44,7 @@
   background: var(--db-card);
   border-radius: 16px;
   padding: 32px;
-  box-shadow: 0 20px 60px rgba(31, 59, 66, 0.25);
+  box-shadow: 0 20px 60px rgba(59, 52, 40, 0.25);
   box-sizing: border-box;
   text-align: left;
 }
@@ -66,7 +67,7 @@
   min-width: 0;
 }
 
-/* Título principal del dashboard, azul petróleo oscuro */
+/* Título principal del dashboard, marrón oscuro */
 .dashboard-title {
   font-size: 28px;
   font-weight: 700;
@@ -75,7 +76,7 @@
   letter-spacing: -0.5px;
 }
 
-/* Mensaje de bienvenida, tono azul petróleo medio */
+/* Mensaje de bienvenida, tono beige oscuro */
 .dashboard-welcome {
   font-size: 15px;
   color: var(--db-text-soft);
@@ -114,13 +115,159 @@
   font-size: 13px;
 }
 
-/* Botón de cierre de sesión con degradado azul petróleo */
+/* ------------------------------------------------------------
+   Resumen de tareas: métricas y botón de reporte
+   ------------------------------------------------------------ */
+
+/* Fila flexible: métricas, botón de reporte y mensaje de estado */
+.Resumen-tareas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Mini-card de cada métrica */
+.Resumen-tareas > div {
+  flex: 1 1 150px;
+  padding: 12px 16px;
+  background: var(--db-surface);
+  border: 1px solid var(--db-border);
+  border-left: 4px solid var(--db-border);
+  border-radius: 12px;
+}
+
+/* Etiqueta de la métrica */
+.Resumen-tareas > div p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--db-text-muted);
+}
+
+/* Número de la métrica */
+.Resumen-tareas > div h4 {
+  margin: 4px 0 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Totales: color del tema del Dashboard */
+.Resumen-tareas > div:nth-child(1) {
+  border-left-color: var(--db-accent);
+}
+
+.Resumen-tareas > div:nth-child(1) h4 {
+  color: var(--db-accent);
+}
+
+/* Pendientes: rojo (mismo tono del badge "Pendiente") */
+.Resumen-tareas > div:nth-child(2) {
+  border-left-color: var(--db-danger-text);
+}
+
+.Resumen-tareas > div:nth-child(2) h4 {
+  color: var(--db-danger-text);
+}
+
+/* Completadas: verde (mismo tono del badge "Completada") */
+.Resumen-tareas > div:nth-child(3) {
+  border-left-color: var(--db-success-text);
+}
+
+.Resumen-tareas > div:nth-child(3) h4 {
+  color: var(--db-success-text);
+}
+
+/* Botón de reporte: mismo estilo que los botones principales */
+.Resumen-tareas .button {
+  align-self: center;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #FDFBF7;
+  background: linear-gradient(135deg, var(--db-accent) 0%, var(--db-accent-dark) 100%);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  font-family: var(--sans);
+  white-space: nowrap;
+}
+
+/* Hover: se eleva levemente */
+.Resumen-tareas .button:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(140, 122, 94, 0.4);
+}
+
+/* Click: vuelve a su posición */
+.Resumen-tareas .button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Foco visible con teclado */
+.Resumen-tareas .button:focus-visible {
+  outline: 3px solid rgba(140, 122, 94, 0.35);
+  outline-offset: 2px;
+}
+
+/* Estado "Enviando...": deshabilitado con pulso suave */
+.Resumen-tareas .button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  animation: dashboard-feedback-pulse 1.4s ease-in-out infinite;
+}
+
+/* Banner de estado del reporte: mismo comportamiento que el feedback de tareas */
+.dashboard-report-feedback {
+  flex: 1 1 100%;
+  margin: 4px 0 0;
+  padding: 12px 16px;
+  border: 1px solid transparent;
+  border-left-width: 4px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+/* Enviando reporte... */
+.dashboard-report-feedback--loading {
+  background: var(--db-info-bg);
+  border-color: var(--db-info-border);
+  color: var(--db-info-text);
+  animation: dashboard-feedback-pulse 1.4s ease-in-out infinite;
+}
+
+/* Reporte enviado correctamente */
+.dashboard-report-feedback--success {
+  background: var(--db-success-bg);
+  border-color: var(--db-success-border);
+  color: var(--db-success-text);
+  animation: dashboard-feedback-out 0.4s ease 3.6s forwards;
+}
+
+/* Error al enviar el reporte */
+.dashboard-report-feedback--error {
+  background: var(--db-danger-bg);
+  border-color: var(--db-danger-border);
+  color: var(--db-danger-text);
+}
+
+/* Botón de cierre de sesión con degradado beige */
 .dashboard-logout {
   flex-shrink: 0;
   padding: 12px 24px;
   font-size: 15px;
   font-weight: 600;
-  color: #F7FCFD;
+  color: #FDFBF7;
   background: linear-gradient(135deg, var(--db-accent) 0%, var(--db-accent-dark) 100%);
   border: none;
   border-radius: 10px;
@@ -132,7 +279,7 @@
 /* Hover del logout: se eleva levemente */
 .dashboard-logout:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(47, 111, 124, 0.4);
+  box-shadow: 0 8px 20px rgba(140, 122, 94, 0.4);
 }
 
 /* ------------------------------------------------------------
@@ -190,10 +337,10 @@
   box-sizing: border-box;
 }
 
-/* Focus azul petróleo con glow suave */
+/* Focus beige con glow suave */
 .dashboard-input:focus {
-  border-color: var(--db-accent);
-  box-shadow: 0 0 0 3px rgba(47, 111, 124, 0.15);
+  border-color: var(--db-focus);
+  box-shadow: 0 0 0 3px rgba(140, 122, 94, 0.2);
 }
 
 /* ------------------------------------------------------------
@@ -267,7 +414,7 @@
   padding: 12px 20px;
   font-size: 15px;
   font-weight: 600;
-  color: #F7FCFD;
+  color: #FDFBF7;
   background: linear-gradient(135deg, var(--db-accent) 0%, var(--db-accent-dark) 100%);
   border: none;
   border-radius: 10px;
@@ -281,7 +428,7 @@
 .dashboard-form .button:not(:disabled):hover,
 .dashboard-task-actions .button:not(:disabled):hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(47, 111, 124, 0.4);
+  box-shadow: 0 8px 20px rgba(140, 122, 94, 0.4);
 }
 
 /* Botones deshabilitados (título con menos de 2 caracteres) */
@@ -311,8 +458,8 @@
 }
 
 .dashboard-task-actions .button.ghost:not(:disabled):hover {
-  background: #E6F1F3;
-  border-color: #9EBFC6;
+  background: #F3EDE3;
+  border-color: #C9BDA9;
   box-shadow: none;
 }
 
@@ -320,7 +467,7 @@
 .dashboard-logout:focus-visible,
 .dashboard-form .button:focus-visible,
 .dashboard-task-actions .button:focus-visible {
-  outline: 3px solid rgba(47, 111, 124, 0.35);
+  outline: 3px solid rgba(140, 122, 94, 0.35);
   outline-offset: 2px;
 }
 
@@ -353,14 +500,14 @@
 
 .dashboard-task-item:hover {
   border-color: var(--db-accent);
-  box-shadow: 0 6px 16px rgba(31, 59, 66, 0.08);
+  box-shadow: 0 6px 16px rgba(59, 52, 40, 0.08);
 }
 
 /* Tarea en modo edición: resalta la card y ocupa todo el ancho */
 .dashboard-task-item--editing {
   background: var(--db-card);
   border-color: var(--db-accent);
-  box-shadow: 0 6px 16px rgba(31, 59, 66, 0.08);
+  box-shadow: 0 6px 16px rgba(59, 52, 40, 0.08);
 }
 
 /* Formulario de edición en línea */
@@ -494,6 +641,14 @@
   }
 
   .dashboard-logout {
+    width: 100%;
+  }
+
+  .Resumen-tareas > div {
+    flex: 1 1 100%;
+  }
+
+  .Resumen-tareas .button {
     width: 100%;
   }
 

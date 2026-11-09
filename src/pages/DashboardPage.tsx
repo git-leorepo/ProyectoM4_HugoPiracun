@@ -40,9 +40,18 @@ const DashboardPage = () => {
     const [editTitle, setEditTitle] = useState("");
     const [editDescription, setEditDescription] = useState("");
 
-    //Estados del correo
+    //Estados del correo para añadir tarea
     const [status, setStatus] = useState<FormStatus>("idle");
     const [feedback, setFeedback] = useState("");
+    const totalTasks = tasks.length;
+    const completedTasks = tasks.filter((task) => task.completed).length;
+    const pendingTasks = totalTasks - completedTasks;
+
+
+    //Estados del correo para reporte
+    const [isSendingReport, setIsSendingReport] = useState(false);
+    const [reportFeedback, setReportFeedback] = useState("");
+    const [reportStatus, setReportStatus] = useState<FormStatus>("idle");
 
 
     //como no puedo ejecutar un use effect asincrono, lo que hago es crear una funcion asincrona dentro de un useEffect y la ejecuto al final
@@ -72,6 +81,18 @@ const DashboardPage = () => {
 
         return () => clearTimeout(timer);
     }, [status]);
+
+    // Mismo comportamiento para el mensaje de éxito del reporte.
+    useEffect(() => {
+        if (reportStatus !== "success") return;
+
+        const timer = setTimeout(() => {
+            setReportFeedback("");
+            setReportStatus("idle");
+        }, 4000);
+
+        return () => clearTimeout(timer);
+    }, [reportStatus]);
 
     const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
@@ -137,7 +158,45 @@ const DashboardPage = () => {
             setIsLoading(false);
         }
     };
+    const handleReporte = async ()=>{
+        setIsSendingReport(true);
+        setReportStatus("loading");
+        setReportFeedback("Enviando reporte...");
 
+        try {
+                const response = await fetch("/api/send-email", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        name: user?.displayName ?? user?.email ?? "Usuario",
+                        email: user?.email ?? "",
+                        message: `Resumen de Tareas:\n` +
+                                `- Tareas totales: ${totalTasks}\n` +
+                                `- Tareas pendientes: ${pendingTasks}\n` +
+                                `- Tareas completadas: ${completedTasks}`,
+                        }),
+                });
+            const data = (await response.json()) as ApiResponse;
+            if (!response.ok) {
+                const errorMessage = data.error ?? "No se pudo enviar el reporte";
+                throw new Error(data.detail ? `${errorMessage}: ${data.detail}` : errorMessage);
+            }
+            setReportStatus("success");
+            setReportFeedback("¡Reporte enviado exitosamente!");
+
+        } catch (error) {
+            setReportStatus("error");
+            setReportFeedback(
+                error instanceof Error ? error.message : "Error al enviar el reporte",
+            );
+            
+        }finally{
+            setIsSendingReport(false);
+        }
+
+    }
     const handleToggle = async (task: Task) => {
         setIsLoading(true);
 
@@ -269,6 +328,39 @@ const DashboardPage = () => {
                             <span className="dashboard-label">UID</span>
                             {user?.uid}
                         </p>
+                    </div>
+
+                    <div className="Resumen-tareas">
+                        <div>
+                            <p>Tareas totales</p>
+                            <h4>{totalTasks}</h4>
+                        </div>
+
+                        <div>
+                            <p>Tareas pendientes</p>
+                            <h4>{pendingTasks}</h4>
+                        </div>
+
+                        <div>
+                            <p>Tareas completadas</p>
+                            <h4>{completedTasks}</h4>
+                        </div>
+
+                        <Button variant="danger" onClick={() => void handleReporte()} disabled={isSendingReport}>
+                            {isSendingReport ? "Enviando..." : "Reporte"}
+                        </Button>
+                        {/* Mensaje de estado del reporte */}
+                        {reportFeedback && (
+                            <span
+                                className={`dashboard-report-feedback dashboard-report-feedback--${reportStatus}`}
+                                role="status"
+                            >
+                                {reportFeedback}
+                            </span>
+                        )}
+
+                        
+
                     </div>
                 </div>
 
