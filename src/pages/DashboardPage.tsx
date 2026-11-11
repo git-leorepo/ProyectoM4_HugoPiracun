@@ -57,8 +57,12 @@ const DashboardPage = () => {
     //como no puedo ejecutar un use effect asincrono, lo que hago es crear una funcion asincrona dentro de un useEffect y la ejecuto al final
     useEffect(() => {
         const loadTasks = async () => {
+            if (!user?.uid) {
+                setIsLoading(false);
+                return;
+            }
             try {
-                const data = await getTasks(user?.uid);
+                const data = await getTasks(user.uid);
                 setTasks(data);
             } catch (error) {
                 setError("Error al cargar tareas");
@@ -67,7 +71,7 @@ const DashboardPage = () => {
             }
         };
         loadTasks();
-    }, []);
+    }, [user?.uid]);
 
     // Oculta el mensaje de éxito unos segundos después de mostrarse.
     // Solo administra la visibilidad del feedback: no interviene en el envío.
