@@ -1,8 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import DashboardPage from '../pages/DashboardPage'
 import { MemoryRouter } from 'react-router-dom'
-import { fireEvent, waitFor } from '@testing-library/react'
 import * as taskServices from '../services/taskservices'
 
 
@@ -13,6 +12,7 @@ vi.mock('../features/auth/Authenticator', () => ({
     logout: vi.fn(),
   }),
 }))
+
 // Mock para simular las tareas sin llamar a Firebase real
 vi.mock('../services/taskservices', () => ({
   getTasks: vi.fn().mockResolvedValue([]),
@@ -21,15 +21,14 @@ vi.mock('../services/taskservices', () => ({
   updateTask: vi.fn(),
 }))
 
-
 describe('funciones básicas', () => {
   it('suma correctamente', () => {
     expect(2 + 2).toBe(4)
   })
 })
 
-describe('Dashboard', () => {
-  it('Dashboard page', async () => {
+describe('Elemento del DashboardPage', () => {
+  it('Boton Cerrar sesión', async () => {
     render(
       <MemoryRouter>
         <DashboardPage />
@@ -38,7 +37,38 @@ describe('Dashboard', () => {
     const botonCerrarSesion = await screen.findByRole('button', { name: /Cerrar sesión/ })
     expect(botonCerrarSesion).toBeInTheDocument()
   })
+})
 
+describe('Elemento del Dashboard page', () => {
+  it('Titulo Dashboard', async () => {
+    render(
+      <MemoryRouter>
+        <DashboardPage />
+      </MemoryRouter>
+    )
+    const tituloDashboard = await screen.findByText(/Dashboard/i)
+    expect(tituloDashboard).toBeVisible()
+  })
+
+  it('permite escribir en el input task-title usando fireEvent', async () => {
+    render(
+      <MemoryRouter>
+        <DashboardPage />
+      </MemoryRouter>
+    )
+
+    // 1. Esperamos a que aparezca el input asociado a la etiqueta 'Título de la tarea'
+    const inputTitulo = await screen.findByLabelText(/Título de la tarea/i)
+
+    // 2. Verificamos que empiece vacío
+    expect(inputTitulo).toHaveValue('')
+
+    // 3. Simulamos la escritura del usuario con fireEvent
+    fireEvent.change(inputTitulo, { target: { value: 'Comprar café' } })
+
+    // 4. Verificamos que el valor cambió
+    expect(inputTitulo).toHaveValue('Comprar café')
+  })
 })
 
 describe('Formulario de nueva tarea (dashboard-form)', () => {
