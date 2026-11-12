@@ -38,6 +38,7 @@ Aplicación web tipo **TODO** para crear, organizar y completar tareas personale
 - [🖼️ Pantallas de cada vista](#pantallas)
 - [🧪 Cómo generar los tests](#tests)
 - [📌 Notas y limitaciones](#notas)
+- [🤖 Consultas IA](#consultas-ia)
 
 ---
 
@@ -1204,6 +1205,125 @@ npx vitest run --coverage
 - **`usuarios.md`:** contiene credenciales en texto plano y está versionado. Se recomienda eliminarlo y rotar las contraseñas.
 - **`ProtectedRoute.tsx`:** está comentado; el guard activo es `RequireAuth`.
 - **Deployment URL:** el README usa `[URL_DE_PRODUCCION]` hasta que se confirme el dominio real.
+
+---
+
+<a name="consultas-ia"></a>
+## 🤖 Consultas IA
+
+Registro de las consultas de **desarrollo** realizadas durante el proyecto, con una respuesta resumida y el resultado de cada una.
+
+### 1. Estilos de la vista Dashboard
+
+**Fecha:** 02/11/2026
+
+**Consulta:** estilizar `DashboardPage` con un diseño similar a Login y SignUp, usando el header como primera card y concentrando todos los estilos en `DashboardPage.css`, sin tocar la lógica ni el CRUD de tareas.
+
+**Respuesta resumida:** se reorganizó el header y se separaron las cards (datos del usuario, formulario y listado) con clases nuevas y variables CSS. No se modificaron estados, handlers ni servicios, y la propuesta se mostró antes de aplicarla.
+
+**Resultado:** `DashboardPage.tsx` y `DashboardPage.css` actualizados sin cambios funcionales.
+
+### 2. Edición de tareas en línea
+
+**Fecha:** 03/11/2026
+
+**Consulta:** agregar la funcionalidad de edición al botón **Editar** (`handleEditar`) para modificar el título y la descripción de una tarea.
+
+**Respuesta resumida:** se agregaron los estados `editingTaskId`, `editTitle` y `editDescription`; el formulario aparece dentro de la tarea seleccionada; se valida el título y se guarda con `updateTask`. Crear, completar y eliminar quedaron intactos.
+
+**Resultado:** edición en línea funcionando y build correcto.
+
+### 3. Explicación de `handleEditar`
+
+**Fecha:** 03/11/2026
+
+**Consulta:** explicar qué hace `handleEditar`.
+
+**Respuesta resumida:** se explicó la firma con la acción `start | save | cancel`, el valor por defecto, la carga de los valores actuales, la validación del título, la llamada a `updateTask` y la actualización del estado local.
+
+**Resultado:** explicación didáctica, sin cambios en el código.
+
+### 4. Temas de color e iteraciones de SignUp
+
+**Fecha:** 03/11/2026
+
+**Consulta:** cambiar el tema de color de SignUp y Dashboard manteniendo Login, y probar más opciones para SignUp hasta encontrar una que gustara.
+
+**Respuesta resumida:** se probaron temas verde, rosa/magenta, mostaza/ocre y grafito. Se descartaron por preferencia y se adoptó **beige arena** (`#C9B79C → #E3D6C3`, card `#FDFBF7`). Login conservó los tonos tierra y Dashboard terminó usando la misma paleta.
+
+**Resultado:** `SignUp.css` y `DashboardPage.css` con variables CSS por vista.
+
+### 5. Mensajes de estado del envío de correo
+
+**Fecha:** 05/11/2026
+
+**Consulta:** estilizar los mensajes de estado del correo (feedback) con el diseño del Dashboard, en `DashboardPage.css`.
+
+**Respuesta resumida:** se agregaron variables para éxito, error e información, y un banner con estados `loading`, `success` y `error`. Los colores siguen la paleta beige arena.
+
+**Resultado:** banner de feedback integrado en el Dashboard.
+
+### 6. Ocultar automáticamente el mensaje de éxito
+
+**Fecha:** 05/11/2026
+
+**Consulta:** hacer que "Correo enviado correctamente" desaparezca sin tocar la lógica principal.
+
+**Respuesta resumida:** se agregó un `useEffect` que limpia el feedback de éxito después de unos segundos. Solo administra la visibilidad; no interviene en el envío.
+
+**Resultado:** mensaje temporal con `setTimeout` y limpieza del timer.
+
+### 7. Prueba del caso de error de envío
+
+**Fecha:** 05/11/2026
+
+**Consulta:** probar qué pasa cuando el correo no se puede enviar.
+
+**Respuesta resumida:** se identificó que con `npm run dev` la ruta `/api/send-email` no existe, así que el `fetch` falla y SES nunca se toca. Se documentó que el `catch` actual llama a `setError("Error al crear la tarea")` y activa el early return, mostrando "Error al cargar tareas" en lugar del banner rojo.
+
+**Resultado:** diagnóstico y propuesta de corrección de una línea, sin aplicar.
+
+### 8. Unificar el Dashboard con el tema de SignUp
+
+**Fecha:** 09/11/2026
+
+**Consulta:** aplicar al Dashboard el mismo diseño beige arena de SignUp, sin afectar la lógica.
+
+**Respuesta resumida:** se actualizaron las variables locales de `.dashboard-container` (cards, bordes, textos, acentos y estados) para igualar la paleta de SignUp.
+
+**Resultado:** Dashboard con tema beige arena consistente.
+
+### 9. Resumen de tareas y botón Reporte
+
+**Fecha:** 09/11/2026
+
+**Consulta:** estilizar `Resumen-tareas` (totales, pendientes y completadas) y el botón **Reporte** con sus estados.
+
+**Respuesta resumida:** se creó una fila de mini-cards con barra de color por métrica y se estilizó el botón con estados normal, hover, deshabilitado y envío. Se agregó `reportStatus` para que el feedback use clases verdes o rojas, igual que el envío de tareas.
+
+**Resultado:** resumen y reporte con estilos y feedback de éxito/error.
+
+### 10. Estilos del correo en `correo.css`
+
+**Fecha:** 09/11/2026
+
+**Consulta:** estilizar el correo de AWS con la paleta del proyecto, sin modificar la lógica del TSX y con los estilos en `src/pages/correo.css`.
+
+**Respuesta resumida:** se explicó que el correo se arma en `api/send-email.ts` (no en el TSX) y se pasó de `Body.Text` a HTML con estilos embebidos, usando la paleta beige arena para los flujos de crear tarea y reporte.
+
+**Resultado:** `correo.css` y `api/send-email.ts` modificados, luego revertidos.
+
+### 11. Revertir los estilos del correo
+
+**Fecha:** 09/11/2026
+
+**Consulta:** revertir el último cambio porque se insertaron demasiadas líneas y no se entendía el código.
+
+**Respuesta resumida:** se restauró `api/send-email.ts` con `git checkout --` y se eliminó `src/pages/correo.css`. El correo volvió a texto plano y el Dashboard conservó sus cambios.
+
+**Resultado:** cambio revertido por completo, sin tocar el resto del proyecto.
+
+> Las respuestas fueron elaboradas con asistencia de IA y revisadas contra el código y la configuración del proyecto.
 
 ---
 
